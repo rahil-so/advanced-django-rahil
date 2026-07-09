@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from rest_framework import status
 from django.shortcuts import render, get_object_or_404
 from apps.article.models import Article
-from apps.article.serializers import ArticleSerializer, ArticleDetailSerializer
+from apps.article.serializers import ArticleSerializer, ArticleDetailSerializer, ArticleCSVSerializer
 from rest_framework import generics
 from apps.article.permissions import ArticleOwnerPermission
 from rest_framework.viewsets import ModelViewSet
@@ -14,9 +14,9 @@ from django.core.cache import cache
 from django.views.decorators.cache import  cache_page
 from django.utils.decorators import method_decorator
 from django.core.mail import send_mail
-
+from apps.article.tasks import import_article_from_csv_task
 from apps.users.models import User
-
+from celery.result import AsyncResult
 
 class ArticleListAPIView(APIView):
     permission_classes = [AllowAny]
@@ -110,6 +110,7 @@ class ArticleViewSet(ModelViewSet):
         article = get_object_or_404(Article, pk=pk)
         article.is_published = True
         article.save()
+        add.delay(8,9)
         return Response(status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['get'], url_path='published-articles')
@@ -118,5 +119,23 @@ class ArticleViewSet(ModelViewSet):
         serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+
+
+
+class AddArticleFromCSV(APIView):
+   permission_classes = [IsAuthenticated]
+
+   def post(self, request):
+       file = request.FILES['file']
+       task = import_article_from_csv_task.delay(file.read().decode())
+       return Response(data={'task_id': task.id}, status=status.HTTP_201_CREATED)
+
+
+class TaskStatusAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, task_id):
+        task = AsyncResult(task_id=task_id)
+        return Response({'status': task.status, 'result': task.result}, status=status.HTTP_200_OK)
 
 

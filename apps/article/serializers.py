@@ -1,3 +1,4 @@
+from django.core.validators import FileExtensionValidator
 from rest_framework.serializers import Serializer, ModelSerializer
 from apps.article.models import Article, Tag
 from apps.users.models import User

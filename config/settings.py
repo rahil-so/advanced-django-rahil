@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+
+from celery.schedules import crontab
 from django.conf.global_settings import AUTH_USER_MODEL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -179,3 +181,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+CELERY_BEAT_SCHEDULE = {
+    'remove_directory': {
+        'task': "apps.article.tasks.clear_specific_folder_task",
+        # 'schedule': timedelta(seconds=5),
+        'schedule': crontab(hour=2, minute=30),
+        'args': ['/home/rahil/']
+    }
+}
