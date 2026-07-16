@@ -2,7 +2,7 @@ from celery import shared_task
 import csv
 import io
 import shutil
-from article.models import Article
+from apps.article.models import Article
 
 
 @shared_task(autoretry_for=(Exception,), retry_backoff=True, max_retries=5, name='import', queue='import_csv')

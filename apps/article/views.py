@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from rest_framework import status
 from django.shortcuts import render, get_object_or_404
 from apps.article.models import Article
-from apps.article.serializers import ArticleSerializer, ArticleDetailSerializer, ArticleCSVSerializer
+from apps.article.serializers import ArticleSerializer, ArticleDetailSerializer
 from rest_framework import generics
 from apps.article.permissions import ArticleOwnerPermission
 from rest_framework.viewsets import ModelViewSet
