@@ -12,15 +12,6 @@ class LoginSerializer(serializers.Serializer):
         if not '@' in value:
             raise serializers.ValidationError('Email address is not valid')
         return value
-    def validate(self, data):
-        email = data.get("email")
-        password = data.get("password")
-        if email and password:
-            if email in password:
-                raise serializers.ValidationError('Email address is not valid')
-        else:
-            raise serializers.ValidationError('Email address is not valid')
-        user = authenticate(email=email, password=password)
 
         if not user:
             raise serializers.ValidationError('Invalid credentials')
@@ -45,4 +36,31 @@ class UserBriefSerializer(serializers.ModelSerializer):
 
     def get_full_name(self, object):
         return f'{object.first_name} {object.last_name}'
+
+class RegisterSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+    def validate_email(self, value):
+        if not '@' in value:
+            raise serializers.ValidationError('Email address is not valid')
+        return value
+
+    def validate(self, data):
+        email = data.get("email")
+        password = data.get("password")
+        if email and password:
+            if email in password:
+                raise serializers.ValidationError('Email address is not valid')
+        else:
+            raise serializers.ValidationError('Email address is not valid')
+        user = authenticate(email=email, password=password)
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        read_only_fields = ['username','']
+
+
+
 
