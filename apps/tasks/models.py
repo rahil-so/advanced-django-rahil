@@ -27,3 +27,14 @@ class Task(BaseModel):
 
     def __str__(self):
         return self.title
+
+class StatusChoices(models.TextChoices):
+     not_started=('s','not started'),
+     in_progress=('p','in progress'),
+     on_hold=('h','on hold'),
+     completed=('c','completed')
+
+class TaskStatus(BaseModel):
+    status = models.IntegerField(choices=StatusChoices.choices, default=StatusChoices.not_started)
+
+

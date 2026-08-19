@@ -62,8 +62,6 @@ class ArticleSerializer(ModelSerializer):
         return instance
 
 
-
-
 class ArticleDetailSerializer(ModelSerializer):
     tags = TagSerializer(many=True)
     class Meta:

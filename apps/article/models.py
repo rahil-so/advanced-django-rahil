@@ -35,7 +35,7 @@ class UploadJob(BaseModel):
     upload_by = models.ForeignKey(User, on_delete=models.CASCADE)
     original_file_name = models.CharField(max_length=100)
     file = models.FileField(upload_to=upload_to)
-    stutus = models.CharField(max_length=10, choices=JobStatus.choices, default=JobStatus.PENDING)
+    status = models.CharField(max_length=10, choices=JobStatus.choices, default=JobStatus.PENDING)
     total_rows = models.PositiveSmallIntegerField()
     processed_rows = models.PositiveSmallIntegerField()
     failed_rows = models.PositiveSmallIntegerField()
