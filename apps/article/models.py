@@ -23,8 +23,8 @@ class Article(BaseModel):
 def upload_to(instance, filename):
     extension = Path(filename).suffix
     filename = f"{uuid4()}{extension}"
-
     return f"uploads/%Y/%m/%d/{filename}"
+
 class JobStatus(models.TextChoices):
     PENDING = 'pending', 'Pending'
     RUNNING = 'running', 'Running'

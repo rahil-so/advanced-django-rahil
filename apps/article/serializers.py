@@ -3,6 +3,7 @@ from rest_framework.serializers import Serializer, ModelSerializer
 from apps.article.models import Article, Tag
 from apps.users.models import User
 from rest_framework import serializers
+
 class TagSerializer(ModelSerializer):
     class Meta:
         model = Tag
@@ -45,8 +46,6 @@ class ArticleSerializer(ModelSerializer):
         new_article.tags.add(*tags_d)
         new_article.save()
         return new_article
-
-
 
     def update(self, instance, validated_data):
         tags_data = validated_data.pop('tags', None)
