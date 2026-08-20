@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from apps.projects.models import Project, Status_Choices, Task
 from apps.users.serializers import UserBriefSerializer, User
+from .models import Project ,StatusChoices
+from apps.tasks.models import Task
 
 class ProjectStatSerializer(serializers.Serializer):
     project_id = serializers.IntegerField(read_only=True)
@@ -40,7 +41,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
     def validate(self, attrs):
-        if attrs.get('status') == Status_Choice.COMPLETED and not attrs.get('deadline'):
+        if attrs.get('status') == StatusChoices.COMPLETED and not attrs.get('deadline'):
             raise serializers.ValidationError('پروژه ای که انجام شده باید موعد تحویل داشته باشد')
         return attrs
 

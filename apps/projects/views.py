@@ -1,7 +1,7 @@
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly,IsAdminUser
 from rest_framework.viewsets import ModelViewSet
-from models import Project
-from serializers import ProjectSerializer
+from .models import Project
+from .serializers import ProjectSerializer
 from rest_framework.filters import OrderingFilter,SearchFilter
 
 

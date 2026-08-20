@@ -1,7 +1,7 @@
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.viewsets import ModelViewSet
-from models import Task
-from serializers import TaskSerializer
+from .models import Task
+from .serializers import TaskSerializer
 from rest_framework.filters import OrderingFilter,SearchFilter
 from rest_framework.response import Response
 

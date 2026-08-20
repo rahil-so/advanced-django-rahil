@@ -1,7 +1,7 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
-from models import Organization
-from serializers import OrganizationHyperlinkedSerializer
+from .models import Organization
+from .serializers import OrganizationHyperlinkedSerializer
 from rest_framework.filters import SearchFilter
 
 

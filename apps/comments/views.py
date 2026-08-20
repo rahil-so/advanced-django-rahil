@@ -1,7 +1,7 @@
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import ModelViewSet
-from models import Comment
-from serializers import CommentSerializer
+from .models import Comment
+from .serializers import CommentSerializer
 from rest_framework.filters import OrderingFilter
 
 class CommentViewSet(ModelViewSet):
