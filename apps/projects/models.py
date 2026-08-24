@@ -11,7 +11,6 @@ class StatusChoices(models.TextChoices):
     COMPLETED = ('completed', 'انجام شده')
     ARCHIVED = ('archived', 'آرشیو شده')
 
-
 class Project(BaseModel):
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)

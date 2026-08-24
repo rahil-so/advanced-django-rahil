@@ -6,15 +6,17 @@ from rest_framework.filters import OrderingFilter,SearchFilter
 
 
 class ProjectViewSet(ModelViewSet):
+    lookup_field = 'slug'
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     filter_backends = [OrderingFilter,SearchFilter]
     search_fields = ['name']
-    ordering_field = ['deadline','status','created_at']
+    ordering_fields = ['deadline','status','created_at']
     ordering = 'deadline'
 
+
     def perform_create(self, serializer):
-        serializer.save(Owner=self.request.user)
+        serializer.save(owner=self.request.user)
 
     def get_queryset(self):
         return  Project.objects.filter(owner=self.request.user)

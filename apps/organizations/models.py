@@ -31,9 +31,8 @@ class MemberShip(BaseModel):
         ('admin', 'ادمین'),
         ('manager', 'مدیر'),
         ('member','عضو'),
-        ('viewer', 'بیننده'),
+        ('viewer', 'بیننده'),]
 
-    ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='memberships')
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='viewer')

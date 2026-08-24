@@ -3,18 +3,27 @@ from rest_framework.viewsets import ModelViewSet
 from .models import Organization
 from .serializers import OrganizationHyperlinkedSerializer
 from rest_framework.filters import SearchFilter
-
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 class OrganizationViewSet(ModelViewSet):
+    lookup_field = 'slug'
     queryset = Organization.objects.all()
     serializer_class = OrganizationHyperlinkedSerializer
-    permission_class = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     filter_backends = [SearchFilter]
     search_fields = ['name']
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
     def get_queryset(self):
-        return Organization.objects.filter(Owner=self.request.user)
+        return Organization.objects.filter(owner=self.request.user)
+    @action(detail=True,methods=['get'])
 
-
+    def projects(self,request,slug):
+        organization=Organization.objects.get(slug=slug)
+        serializer = OrganizationHyperlinkedSerializer(organization.projects,many=True)
+        return Response(serializer.data)
+        return
 

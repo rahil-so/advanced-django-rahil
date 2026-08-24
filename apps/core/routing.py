@@ -6,8 +6,9 @@ from apps.tasks.views import TaskViewSet
 from apps.users.views import UserViewSet
 
 router = DefaultRouter()
-router.register('projects', ProjectViewSet)
-router.register('comments',CommentViewSet)
-router.register('tasks', TaskViewSet)
-router.register('organizations', OrganizationViewSet)
-router.register('users',UserViewSet)
+router.register('projects', ProjectViewSet, basename='project')
+router.register('comments',CommentViewSet, basename='comment')
+router.register('tasks', TaskViewSet, basename='task')
+router.register('users', UserViewSet, basename='user')
+router.register('organizations', OrganizationViewSet,basename='organization')
+

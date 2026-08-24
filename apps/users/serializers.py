@@ -11,6 +11,17 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError('Email address is not valid')
         return value
 
+    def validate(self, data):
+        email=data.get('email')
+        password = data.get('password')
+        user=authenticate(email=email, password=password)
+        if user:
+            data['user'] = user
+        else:
+            raise serializers.ValidationError('password or email is not valid')
+        return data
+
+
         if not user:
             raise serializers.ValidationError('Invalid credentials')
         if not user.is_active:

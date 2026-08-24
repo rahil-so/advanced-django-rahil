@@ -25,6 +25,8 @@ from rest_framework_simplejwt.views import (
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from apps.core.routing import router
 
+from apps.users.views import LoginView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.article.urls')),
@@ -36,6 +38,7 @@ urlpatterns = [
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('api/',include(router.urls)),
+    path('api/login/',LoginView.as_view(),name='login'),
     ]
 urlpatterns += debug_toolbar_urls()
 
