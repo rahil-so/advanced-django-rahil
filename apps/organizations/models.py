@@ -34,7 +34,8 @@ class MemberShip(BaseModel):
         ('viewer', 'بیننده'),]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='memberships')
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE,
+                                     related_name='memberships')
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='viewer')
     joined_at = models.DateTimeField(auto_now_add=True)
 

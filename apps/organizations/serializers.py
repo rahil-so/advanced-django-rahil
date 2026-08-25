@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.organizations.models import Organization
+from apps.organizations.models import Organization, MemberShip
 
 
 class OrganizationHyperlinkedSerializer(serializers.HyperlinkedModelSerializer):
@@ -10,7 +10,7 @@ class OrganizationHyperlinkedSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Organization
         fields = [
-            'url','id',
+            'url','id','members_url',
              'name', 'slug', 'owner',  'plan','projects_url','created_at'
         ]
         #'members_url', add this later and realize why aslani write it like this
@@ -20,4 +20,9 @@ class OrganizationHyperlinkedSerializer(serializers.HyperlinkedModelSerializer):
                 'lookup_field': 'slug'
             }
         }
-
+class MemberShipSerializer(serializers.ModelSerializer):
+    class Meta:
+        Model = MemberShip
+        fields=[
+            'id','user','organization','role','joined_at']
+        read_only_fields=['id','joined_at','organization','role','user']
