@@ -18,7 +18,8 @@ class Project(BaseModel):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='projects')
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='project_owner')
     members = models.ManyToManyField(User, related_name='projectsmembers', blank=True)
-    status = models.CharField(max_length=200, choices=StatusChoices.choices, default=StatusChoices.PLANNING)
+    status = models.CharField(max_length=200, choices=StatusChoices.choices,
+                              default=StatusChoices.PLANNING)
     deadline = models.DateTimeField(null=True, blank=True)
 
 

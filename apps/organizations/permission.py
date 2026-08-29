@@ -20,7 +20,7 @@ class MembershipPermission(BasePermission):
                 return True
             elif membership.role in ['member','viewer']:
                 return False
-        if action == 'list':
+        elif action == 'list':
                return True
 
     def has_object_permission(self, request, view, obj):
@@ -34,7 +34,7 @@ class MembershipPermission(BasePermission):
         role=membership.role
         if action == 'retrieve':
             return True
-        if action in ['update','partial_update']:
+        elif action in ['update','partial_update']:
             if role in ['admin','manager']:
                 return True
             else:

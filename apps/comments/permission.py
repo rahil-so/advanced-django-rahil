@@ -3,7 +3,7 @@ from apps.organizations.models import MemberShip
 from apps.tasks.models import Task
 
 class CommentPermission(BasePermission):
-  def has_permissions(self ,request ,view):
+  def has_permission(self ,request ,view):
     user = request.user
     action =view.action
     if action=='create':
@@ -15,25 +15,28 @@ class CommentPermission(BasePermission):
         project =task.project
         organization =project.organization
         try:
-            memeberships=organization.memeberships.get(user=user)
+            memberships=organization.memberships.get(user=user)
         except MemberShip.DoesNotExist:
             return False
-        role =memeberships.role
+        role =memberships.role
         if role in ['admin' ,'member' ,'manager']:
             return True
         return False
+    elif action in ['update','partial_update','destroy','list','retrieve']:
+        return True
+    return False
 
-  def has_object_permissions(self ,request ,view ,obj):
+  def has_object_permission(self ,request ,view ,obj):
     user = request.user
     task =obj.task
     project =task.project
     organization =project.organization
     action =view.action
     try:
-        memeberships=organization.memeberships.get(user=user)
+        memberships=organization.memberships.get(user=user)
     except MemberShip.DoesNotExist:
         return False
-    role =memeberships.role
+    role =memberships.role
     if action=='retrieve':
         return True
     elif action in ['update' ,'partial_update']:
