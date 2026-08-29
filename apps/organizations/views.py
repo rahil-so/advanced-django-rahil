@@ -5,6 +5,7 @@ from .serializers import OrganizationHyperlinkedSerializer, MemberShipSerializer
 from rest_framework.filters import SearchFilter
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from .permission import MembershipPermission
 
 class OrganizationViewSet(ModelViewSet):
     lookup_field = 'slug'
@@ -25,20 +26,22 @@ class OrganizationViewSet(ModelViewSet):
         organization=Organization.objects.get(slug=slug)
         serializer = OrganizationHyperlinkedSerializer(organization.projects,many=True)
         return Response(serializer.data)
-        return
+
+    @action(detail=True,methods=['get'])
+    def members(self,request, slug):
+        organization=Organization.objects.get(slug=slug)
+        serializer = MemberShipSerializer(organization.memberships,many=True)
+        return Response(serializer.data)
 
 class MemberViewSet(ModelViewSet):
     lookup_field = 'id'
     queryset = MemberShip.objects.all()
     serializer_class = MemberShipSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [MembershipPermission,IsAuthenticated]
     filter_backends = [SearchFilter]
     search_fields = ['role']
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    
 
     def get_queryset(self):
-        return MemberShip.objects.filter(user=self.request.user)
-
+        return MemberShip.objects.filter(organization__memberships__user=self.request.user)
 

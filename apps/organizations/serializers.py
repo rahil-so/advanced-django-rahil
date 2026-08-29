@@ -4,9 +4,9 @@ from apps.organizations.models import Organization, MemberShip
 
 class OrganizationHyperlinkedSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.HyperlinkedRelatedField(view_name='user-detail', read_only=True)
-    projects_url = serializers.HyperlinkedIdentityField(view_name='project-detail',
+    projects_url = serializers.HyperlinkedIdentityField(view_name='organization-projects',
                                                         read_only=True, lookup_field='slug')
-    members_url = serializers.HyperlinkedIdentityField(view_name='member-detail', read_only=True)
+    members_url = serializers.HyperlinkedIdentityField(view_name='organization-members', read_only=True,lookup_field='slug')
     class Meta:
         model = Organization
         fields = [
@@ -21,8 +21,8 @@ class OrganizationHyperlinkedSerializer(serializers.HyperlinkedModelSerializer):
             }
         }
 class MemberShipSerializer(serializers.ModelSerializer):
-    class Meta:
-        Model = MemberShip
-        fields=[
-            'id','user','organization','role','joined_at']
-        read_only_fields=['id','joined_at','organization','role','user']
+        class Meta:
+                  model = MemberShip
+                  fields=[
+                        'id','user','organization','role','joined_at']
+                  read_only_fields=['id','joined_at']

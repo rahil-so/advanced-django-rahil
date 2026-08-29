@@ -6,7 +6,8 @@ from apps.tasks.models import Task
 
 class Comment(BaseModel):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments')
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,
+                               related_name='comments')
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 

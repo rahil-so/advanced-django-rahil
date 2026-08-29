@@ -1,12 +1,12 @@
-from core.permission import BasePermission
-from organizations.models import Organization,MemberShip
+from apps.core.permission import BasePermission
+from apps.organizations.models import Organization,MemberShip
 
 class ProjectPermission(BasePermission):
     def has_permission(self, request, view):
         user = request.user
         action=view.action
         if action == 'create':
-               organization_id=request.data.get['organization']
+               organization_id=request.data.get('organization')
                try:
                   organization=Organization.objects.get(id=organization_id)
                   membership=organization.memberships.get(user=user)
@@ -30,12 +30,12 @@ class ProjectPermission(BasePermission):
         if role in ['admin','manager']:
             return True
         elif role == 'member':
-            if action == 'update,retrieve,partial_update,create':
+            if action in ['list','update','retrieve','partial_update','create']:
                   return True
             else:
               return False
         elif role == 'viewer':
-            if action == 'retrieve':
+            if action in ['retrieve','list']:
                 return True
             else:
               return False

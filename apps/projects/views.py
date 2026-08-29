@@ -23,10 +23,4 @@ class ProjectViewSet(ModelViewSet):
         return  Project.objects.filter(owner=self.request.user)
 
 
-    def get_permissions(self):
-        if self.action == 'list':
-            permission_classes =[IsAuthenticated]
-        else:
-            permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
 

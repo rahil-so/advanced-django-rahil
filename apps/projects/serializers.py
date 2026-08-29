@@ -21,14 +21,12 @@ class ProjectSerializer(serializers.ModelSerializer):
             'id', 'name', 'description', 'organization', 'owner', 'status',
             'status_display', 'deadline','tasks_count', 'created_at', 'updated_at'
         ]
-
         read_only_fields = [
             'id','owner', 'created_at', 'updated_at'
         ]
         extra_kwargs = {
             'discription': {'required':False, 'allow_null': True},
             'deadline': {'required':False,  'allow_null':True},
-            'organization': {'write_only':True}
 
         }
 
